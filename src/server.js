@@ -38,7 +38,8 @@ const handlePost = (request, response, parsedUrl) => {
 const handleGet = (request, response, parsedUrl) => {
   if (parsedUrl.pathname === '/style.css') {
     htmlHandler.getCSS(request, response);
-  } else if (parsedUrl.pathname === '/getUsers') {
+  } 
+  else if (parsedUrl.pathname === '/getUsers') {
     jsonHandler.getUsers(request, response);
   } 
   else if (parsedUrl.pathname === '/') {
@@ -47,6 +48,7 @@ const handleGet = (request, response, parsedUrl) => {
   else {
     jsonHandler.notFound(request, response);
   }
+  console.log(parsedUrl)
 };
 
 const onRequest = (request, response) => {
@@ -58,6 +60,7 @@ const onRequest = (request, response) => {
   else{
     handleGet(request,response,parsedUrl);
   }
+  
 };
 
 http.createServer(onRequest).listen(port);

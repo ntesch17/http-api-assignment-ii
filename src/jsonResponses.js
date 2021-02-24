@@ -20,17 +20,17 @@ const getUsers = (request, response) => {
     users,
   };
 
-  return respondJSON(request, response, 200, responseJSON);
-  //return respondJSONMeta(request,response,200);
+   respondJSON(request, response, 200, responseJSON);
+  return respondJSONMeta(request,response,200);
 };
 
 const addUser = (request, response, body) => {
   const responseJSON = {
-    message: 'Name and Age are both required',
+    message: 'Message: Name and Age are both required',
   };
 
   if(!body.name || !body.age){
-    responseJSON.id = 'missingParams';
+    responseJSON.id = 'ID: missingParams';
     return respondJSON(request,response,400,responseJSON);
   }
 
@@ -47,7 +47,7 @@ const addUser = (request, response, body) => {
   users[body.name].age = body.age;
 
   if(responseCode === 201){
-    responseJSON.message = 'Created Successfuly!';
+    responseJSON.message = 'Message: Created Successfuly!';
     return respondJSON(request,response,responseCode,responseJSON);
   }
 
