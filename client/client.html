@@ -10,28 +10,24 @@
 let head = false;
 
  const parseJSON = (xhr, content) => {
-      if(xhr.response && xhr.getResponseHeader('Content-Type') === 'application/json'){
+      if(xhr.response !== "" && xhr.getResponseHeader('Content-Type') === 'application/json'){
       const obj = JSON.parse(xhr.response);
       console.dir(obj);
 
-      console.log(head);
-      if(head === false){
-        if(obj.message){
-           content.innerHTML += `<p>${obj.message}</p>`
-         }
       
-        else{
-          content.innerHTML += `<p>${xhr.response}</p>`
-         }
-       }
-    }
+      
+          if(obj.message){
+             content.innerHTML += `<p>${obj.message}</p>`
+          }
+      
+          else{
+           content.innerHTML += `<p>${xhr.response}</p>`
+          }
+      } 
     };
 
   const handleResponse = (xhr) => {
       const content = document.querySelector('#content');
-     
-      
-      
       switch(xhr.status) {
         case 200: //if success
           content.innerHTML = `<b>Success!</b>`;
@@ -49,11 +45,10 @@ let head = false;
           content.innerHTML = `<b>Resource not found!</b>`;
           break;
       }
-      //content.innerHTML += `<p>${obj.message}</p>`
       parseJSON(xhr,content);
     }
 
-      const sendPost = (e, nameForm) => {
+    const sendPost = (e, nameForm) => {
       e.preventDefault();
 
       const nameAction = nameForm.getAttribute('action');
@@ -81,7 +76,12 @@ let head = false;
       e.preventDefault();
         const xhr = new XMLHttpRequest();
 
-        xhr.open('GET', url);
+        if(head === false){
+            xhr.open('GET', url);
+        }
+        if(head === true){
+          xhr.open('HEAD', url);
+        }
         xhr.setRequestHeader('Accept', acceptedType);
 
         xhr.onload = () => handleResponse(xhr);
@@ -94,13 +94,9 @@ let head = false;
       const nameForm = document.querySelector('#nameForm');
       const userForm = document.querySelector('#userForm');
       const urlForm = document.querySelector('#urlField').onchange=e=>{
-        console.log(e.target.value);
         url = e.target.value;
       }
       const methodForm = document.querySelector('#methodSelect').onchange=e=>{
-        console.log(e.target.value);
-        method = e.target.value;
-        console.log(method);
         if(e.target.value == 'head'){
           head = true;
         }
@@ -108,8 +104,6 @@ let head = false;
           head = false;
         }
       }
-       
-      
       const addUser = (e) => sendPost(e, nameForm);
       const getUser = (e) => sendAjax(e, url, 'application/json');
       userForm.addEventListener('submit', getUser);
