@@ -5,15 +5,9 @@ const htmlHandler = require('./htmlResponses.js');
 const jsonHandler = require('./jsonResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
-const urlStruct = {
-  '/': htmlHandler.getIndex,
-  '/style.css': htmlHandler.getCSS,
-  notFound: jsonHandler.notFound,
-};
-
 
 const handlePost = (request, response, parsedUrl) => {
-  if(parsedUrl.pathname === '/addUser'){
+  if (parsedUrl.pathname === '/addUser') {
     const body = [];
 
     request.on('error', (err) => {
@@ -30,7 +24,7 @@ const handlePost = (request, response, parsedUrl) => {
       const bodyString = Buffer.concat(body).toString();
       const bodyParams = query.parse(bodyString);
 
-      jsonHandler.addUser(request,response,bodyParams);
+      jsonHandler.addUser(request, response, bodyParams);
     });
   }
 };
@@ -38,29 +32,24 @@ const handlePost = (request, response, parsedUrl) => {
 const handleGet = (request, response, parsedUrl) => {
   if (parsedUrl.pathname === '/style.css') {
     htmlHandler.getCSS(request, response);
-  } 
-  else if (parsedUrl.pathname === '/getUsers') {
+  } else if (parsedUrl.pathname === '/getUsers') {
     jsonHandler.getUsers(request, response);
-  } 
-  else if (parsedUrl.pathname === '/') {
+  } else if (parsedUrl.pathname === '/') {
     htmlHandler.getIndex(request, response);
-  } 
-  else {
+  } else {
     jsonHandler.notFound(request, response);
   }
-  console.log(parsedUrl)
+  console.log(parsedUrl);
 };
 
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
 
-  if(request.method === 'POST'){
-    handlePost(request,response,parsedUrl);
+  if (request.method === 'POST') {
+    handlePost(request, response, parsedUrl);
+  } else {
+    handleGet(request, response, parsedUrl);
   }
-  else{
-    handleGet(request,response,parsedUrl);
-  }
-  
 };
 
 http.createServer(onRequest).listen(port);
