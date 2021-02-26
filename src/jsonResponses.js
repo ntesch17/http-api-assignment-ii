@@ -27,10 +27,11 @@ const getUsers = (request, response) => {
 const addUser = (request, response, body) => {
   const responseJSON = {
     message: 'Message: Name and Age are both required',
+    id: 'Bad Request',
   };
 
   if (!body.name || !body.age) {
-    responseJSON.id = 'ID: missingParams';
+    responseJSON.id = 'ID: Missing Params';
     return respondJSON(request, response, 400, responseJSON);
   }
 
@@ -47,6 +48,7 @@ const addUser = (request, response, body) => {
 
   if (responseCode === 201) {
     responseJSON.message = 'Message: Created Successfuly!';
+    responseJSON.id = 'Success';
     return respondJSON(request, response, responseCode, responseJSON);
   }
 
@@ -56,7 +58,7 @@ const addUser = (request, response, body) => {
 const notFound = (request, response) => {
   const responsesMessage = {
     message: 'Message: The page you are looking for was not found.',
-    id: 'ID: notFound',
+    id: 'ID: Not Found',
   };
 
   respondJSON(request, response, 404, responsesMessage);

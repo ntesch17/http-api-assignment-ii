@@ -11,18 +11,13 @@ let head = false;
 
  const parseJSON = (xhr, content) => {
       if(xhr.response !== "" && xhr.getResponseHeader('Content-Type') === 'application/json'){
-      const obj = JSON.parse(xhr.response);
-      console.dir(obj);
-
-      
-      
-          if(obj.message){
-             content.innerHTML += `<p>${obj.message}</p>`
-          }
-      
-          else{
-           content.innerHTML += `<p>${xhr.response}</p>`
-          }
+        const obj = JSON.parse(xhr.response);
+        if(obj.message){
+            content.innerHTML += `<p>${obj.message}</p>`
+        }
+        else{
+          content.innerHTML += `<p>${xhr.response}</p>`
+        }
       } 
     };
 

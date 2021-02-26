@@ -39,7 +39,6 @@ const handleGet = (request, response, parsedUrl) => {
   } else {
     jsonHandler.notFound(request, response);
   }
-  console.log(parsedUrl);
 };
 
 const onRequest = (request, response) => {
